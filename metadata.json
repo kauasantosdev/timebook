@@ -1,0 +1,6 @@
+{
+  "name": "Sistema de Agendamento SaaS",
+  "description": "Uma plataforma SaaS premium e moderna de agendamento de consultas e marcação de serviços, com dashboard, calendário interativo e página pública de reservas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
