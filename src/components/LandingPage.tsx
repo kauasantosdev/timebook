@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  TrendingUp, 
-  ArrowRight, 
-  CheckCircle, 
-  CalendarClock, 
-  DollarSign, 
-  Shield, 
+import {
+  Calendar,
+  Clock,
+  Users,
+  TrendingUp,
+  ArrowRight,
+  CheckCircle,
+  CalendarClock,
+  DollarSign,
+  Shield,
   ChevronRight,
   Smartphone
 } from 'lucide-react';
 import { Booking, UserProfile } from '../types';
 import logo from "@/assets/images/logo.webp";
+import image_bg from "@/assets/images/bg.webp";
 
 interface LandingPageProps {
+  onEnterAuth: (mode: 'login' | 'register', email?: string) => void;
   onEnterDashboard: () => void;
   onEnterPublicBooking: () => void;
   profile: UserProfile;
   bookings: Booking[];
 }
 
-export default function LandingPage({ 
-  onEnterDashboard, 
-  onEnterPublicBooking, 
-  profile, 
-  bookings 
+export default function LandingPage({
+  onEnterDashboard,
+  onEnterPublicBooking,
+  onEnterAuth,
+  profile,
+  bookings
 }: LandingPageProps) {
   const [emailInput, setEmailInput] = useState('');
   const [demoRequested, setDemoRequested] = useState(false);
@@ -46,7 +49,9 @@ export default function LandingPage({
 
   return (
     <div className="relative min-h-screen bg-[#fafaff] text-slate-900 overflow-hidden font-sans">
-      
+      <div>
+        {/* <img src={image_bg} alt="" className='h-auto w-100 absolute right-0'/> */}
+      </div>
       {/* Dynamic Background Auras (Inspired by the Reference Image gradients) */}
       <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-violet-400/20 blur-[130px] animate-glow-1 pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-300/15 blur-[120px] animate-glow-2 pointer-events-none" />
@@ -66,7 +71,7 @@ export default function LandingPage({
           <a href="#features" className="text-sm font-medium text-slate-500 hover:text-violet-600 transition-colors">Produtos</a>
           <a href="#benefits" className="text-sm font-medium text-slate-500 hover:text-violet-600 transition-colors">Funcionalidades</a>
           <span className="text-slate-200">|</span>
-          <button 
+          <button
             onClick={onEnterPublicBooking}
             className="text-sm font-medium text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors"
           >
@@ -76,15 +81,15 @@ export default function LandingPage({
 
         {/* Auth CTAs */}
         <div className="flex items-center gap-3">
-          <button 
-            onClick={onEnterDashboard}
+          <button
+            onClick={() => onEnterAuth('login')}
             className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-violet-600 transition-all rounded-xl hover:bg-slate-100/50"
           >
             Entrar
           </button>
-          <button 
-            onClick={onEnterDashboard}
-            className="relative overflow-hidden group bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-medium text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-violet-200 transition-all hover:scale-[1.02]"
+          <button
+            onClick={() => onEnterAuth('register')}
+            className="relative overflow-hidden group bg-violet-600 hover:bg-violet-600 text-white font-medium text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-violet-200 transition-all hover:scale-[1.02]"
           >
             Começar Agora
           </button>
@@ -94,8 +99,7 @@ export default function LandingPage({
       {/* Hero Section */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-16">
         <div className="text-center max-w-4xl mx-auto mb-16">
-          
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -105,26 +109,25 @@ export default function LandingPage({
             Nova Geração de Agendamentos
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-slate-900 tracking-tight leading-[1.1] mb-6"
           >
             Impulsiona as tuas Reservas com <br />
-            <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 bg-clip-text text-transparent italic font-semibold">
-              Software Tudo-em-Um
+            <span className="text-violet-600 bg-clip-text text-transparent italic font-semibold">
+              Menos Esforço
             </span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Acelera os teus agendamentos com um calendário integrado de alta performance. 
-            Perfeito para terapeutas, barbeiros, freelancers e marcas modernas de serviços.
+            Aumenta a eficiência dos teus agendamentos com um calendário rápido e simples. Ideal para quem trabalha com marcações todos os dias.
           </motion.p>
 
           {/* Search/Demand Input Field inspired by Onesoft image */}
@@ -143,21 +146,27 @@ export default function LandingPage({
               <form onSubmit={handleSubmitDemo} className="p-1.5 bg-white rounded-full border border-slate-200/80 shadow-xl shadow-slate-200/40 flex items-center gap-2">
                 <div className="flex-1 pl-4 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-slate-400 shrink-0" />
-                  <input 
-                    type="email" 
-                    placeholder="Introduz o teu email profissional" 
+                  <input
+                    type="email"
+                    placeholder="Introduz o teu email profissional"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                     required
                     className="w-full text-sm text-slate-800 placeholder-slate-400 bg-transparent focus:ring-0 outline-none border-none py-1.5"
                   />
                 </div>
-                <button 
+                <button
                   type="submit"
-                  className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold text-xs py-3 px-6 rounded-full transition-all flex items-center gap-1.5 hover:scale-[1.01]"
+                  className='px-6 py-3 border-0 rounded-full text-[#F9F8FF] z-10 bg-[oklch(54.1%_0.281_293.009)] relative font-semibold text-[15px] transition-all duration-[250ms] overflow-hidden cursor-pointer'
+                >
+                  Criar Agenda
+                </button>
+                {/* <button 
+                  type="submit"
+                  className="bg-violet-600 hover:bg-violet-900 text-white font-semibold text-xs py-3 px-6 rounded-full transition-all flex items-center gap-1.5 hover:scale-[1.01]"
                 >
                   Criar Agenda <ChevronRight className="w-3.5 h-3.5" />
-                </button>
+                </button> */}
               </form>
             )}
           </motion.div>
@@ -166,9 +175,9 @@ export default function LandingPage({
         {/* Showcase Grid (Replicating the 4 beautiful Cards in the reference layout) */}
         <section id="features" className="mt-16 mb-24">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
+
             {/* Card 1: Calendar */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col h-full"
@@ -180,7 +189,7 @@ export default function LandingPage({
               <p className="text-xs text-slate-400 leading-relaxed mb-6">
                 Gestão fluida sem colisões de horário para freelancers e estúdios.
               </p>
-              
+
               {/* Mini Interactive Preview */}
               <div className="mt-auto bg-slate-50 border border-slate-100 p-3 rounded-2xl">
                 <div className="flex justify-between items-center text-[10px] text-slate-400 mb-2 font-mono">
@@ -203,7 +212,7 @@ export default function LandingPage({
             </motion.div>
 
             {/* Card 2: CRM/Clients */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col h-full"
@@ -236,7 +245,7 @@ export default function LandingPage({
             </motion.div>
 
             {/* Card 3: Form/Flow config */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col h-full"
@@ -257,7 +266,7 @@ export default function LandingPage({
             </motion.div>
 
             {/* Card 4: ERP & Metrics */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100/50 flex flex-col h-full"
@@ -301,7 +310,7 @@ export default function LandingPage({
                 <h3 className="text-xl font-display font-medium text-slate-800">Painel Geral de Lucas Vasconcelos</h3>
               </div>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={onEnterDashboard}
                   className="bg-slate-900 text-white rounded-lg px-4 py-2 text-xs font-semibold hover:bg-slate-800 transition-all flex items-center gap-1"
                 >
@@ -312,9 +321,9 @@ export default function LandingPage({
 
             {/* Miniature Dashboard Layout */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
+
               {/* Stat card 1 */}
-              <div className="bg-gradient-to-tr from-violet-500 to-indigo-600 p-4 rounded-xl text-white shadow-md">
+              <div className="bg-violet-600 p-4 rounded-xl text-white shadow-md">
                 <div className="flex justify-between items-center opacity-85 mb-2 text-xs">
                   <span>Volume Financeiro</span>
                   <DollarSign className="w-3.5 h-3.5 text-indigo-200" />
