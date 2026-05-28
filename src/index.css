@@ -1,50 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
-import 'lenis/dist/lenis.css'
-
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Brand colors */
+  --color-brand-violet: #7c3aed;
+  --color-brand-indigo: #6366f1;
+  --color-brand-ink: #0f172a;
 }
 
-/* Custom background animations and glows like the reference image */
+/* ── Animations ───────────────────────────────────────────── */
 @keyframes pulseGlow {
-  0%, 100% {
-    transform: scale(1) translate(0px, 0px);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.1) translate(15px, -15px);
-    opacity: 0.8;
-  }
+  0%, 100% { transform: scale(1) translate(0px, 0px); opacity: 0.6; }
+  50%       { transform: scale(1.1) translate(15px, -15px); opacity: 0.85; }
 }
 
-.animate-glow-1 {
-  animation: pulseGlow 12s infinite alternate ease-in-out;
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-.animate-glow-2 {
-  animation: pulseGlow 8s infinite alternate-reverse ease-in-out;
+@keyframes floatY1 {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-14px) rotate(-2deg); }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+@keyframes floatY2 {
+  0%, 100% { transform: translateY(0px) rotate(2deg); }
+  50%       { transform: translateY(-10px) rotate(2deg); }
 }
 
+@keyframes floatY3 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes ping-slow {
+  0%    { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* ── Utility classes ──────────────────────────────────────── */
+@layer utilities {
+  .animate-glow-1 { animation: pulseGlow 12s infinite alternate ease-in-out; }
+  .animate-glow-2 { animation: pulseGlow 8s infinite alternate-reverse ease-in-out; }
+  .animate-marquee { animation: marqueeScroll 32s linear infinite; }
+  .animate-float-1 { animation: floatY1 6s ease-in-out infinite; }
+  .animate-float-2 { animation: floatY2 8s ease-in-out infinite; }
+  .animate-float-3 { animation: floatY3 5s ease-in-out infinite; }
+  .animate-ping-slow { animation: ping-slow 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Glass helpers ────────────────────────────────────────── */
 .glass-panel {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(16px);
@@ -54,11 +70,9 @@ import 'lenis/dist/lenis.css'
 .glass-premium {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  box-shadow: 
-    0 4px 30px rgba(0, 0, 0, 0.03), 
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.03),
     inset 0 1px 1px rgba(255, 255, 255, 0.8),
     0 1px 3px rgba(124, 58, 237, 0.05);
   border: 1px solid rgba(243, 244, 246, 0.8);
 }
-
-
